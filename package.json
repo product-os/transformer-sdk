@@ -1,5 +1,5 @@
 {
-  "name": "transformer-sdk",
+  "name": "@balena/transformer-sdk",
   "version": "0.1",
   "description": "Provides hooks, types and utils for developing transformers",
   "homepage": "https://github.com/product-os/transformer-sdk#readme",

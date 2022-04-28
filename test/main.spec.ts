@@ -39,7 +39,7 @@ describe('Transformer SDK', function () {
 	it('should execute transform callback', async function () {
 		await sdk.transform<TestContract>((manifest) => {
 			expect(manifest.input.contract.data.exists).toEqual(true);
-			return Promise.resolve([] );
+			return Promise.resolve([]);
 		});
 	});
 });

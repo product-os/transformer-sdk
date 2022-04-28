@@ -7,13 +7,15 @@ import { InputManifest, Results, Contract } from './types';
 export * from './types';
 
 export async function transform<InputContract extends Contract = Contract>(
-	callback: (manifest: InputManifest<InputContract>) => Promise<Results>,
+	callback: (
+		manifest: InputManifest<InputContract>,
+	) => Promise<Results['results']>,
 ) {
 	const inputPath = getEnvOrFail('INPUT');
 	const outputPath = getEnvOrFail('OUTPUT');
 	const manifest = await readInput<InputContract>(inputPath);
 	const results = await callback(manifest);
-	await writeOutput(outputPath, results);
+	await writeOutput(outputPath, { results });
 }
 
 async function readInput<InputContract extends Contract = Contract>(

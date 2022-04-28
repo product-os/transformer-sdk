@@ -1,13 +1,11 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as YAML from 'yaml';
+import * as yaml from 'js-yaml';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 import { InputManifest, Results } from './types';
 
 // export types for use by transformers
 export * from './types';
-// export yaml tag to help write inputFilter yaml in js
-export * as yaml from 'yaml-tag';
 
 export async function transform<InputContract extends Contract = Contract>(
 	callback: (manifest: InputManifest<InputContract>) => Promise<Results>,
@@ -23,9 +21,9 @@ async function readInput<InputContract extends Contract = Contract>(
 	inputPath: string,
 ) {
 	const inputDir = path.dirname(inputPath);
-	const manifest: InputManifest<InputContract> = YAML.parse(
+	const manifest = yaml.load(
 		(await fs.promises.readFile(inputPath)).toString(),
-	);
+	) as  InputManifest<InputContract>;
 	// make path absolute to make handling for users easier
 	manifest.input.artifactPath = path.join(
 		inputDir,

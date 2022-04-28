@@ -1,6 +1,6 @@
 {
   "name": "@balena/transformer-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Provides hooks, types and utils for developing transformers",
   "homepage": "https://github.com/product-os/transformer-sdk#readme",
   "main": "build/index.js",
@@ -47,6 +47,6 @@
     "js-yaml": "^4.1.0"
   },
   "versionist": {
-    "publishedAt": "2022-04-28T10:54:10.734Z"
+    "publishedAt": "2022-04-28T12:44:36.436Z"
   }
 }

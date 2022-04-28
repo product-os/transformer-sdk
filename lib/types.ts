@@ -1,4 +1,5 @@
 import type { Contract } from '@balena/jellyfish-types/build/core';
+export type { Contract } from '@balena/jellyfish-types/build/core';
 
 export interface TransformerContract
 	extends Contract<{

@@ -2,14 +2,15 @@ import type {
 	Contract,
 	ContractDefinition,
 } from '@balena/jellyfish-types/build/core';
-export type { Contract } from '@balena/jellyfish-types/build/core';
+
+export type { Contract, ContractDefinition };
 
 export interface TransformerContract
 	extends Contract<{
 		targetPlatform?: string;
 	}> {}
 
-export type InputManifest<InputContract extends Contract = Contract> = {
+export interface InputManifest<InputContract extends Contract = Contract> {
 	input: {
 		contract: InputContract;
 		transformerContract: TransformerContract;
@@ -21,16 +22,16 @@ export type InputManifest<InputContract extends Contract = Contract> = {
 			[key: string]: string;
 		};
 	};
-};
+}
 
-export type Results = {
+export interface Results {
 	results: Result[];
-};
+}
 
-export type Result<
+export interface Result<
 	ResultContract extends ContractDefinition = ContractDefinition,
-> = {
+> {
 	contract: ResultContract;
 	artifactPath?: string; // relative to the results file
 	imagePath?: string; // relative to the results file
-};
+}

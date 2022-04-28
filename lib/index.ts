@@ -1,8 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
-import type { Contract } from '@balena/jellyfish-types/build/core';
-import { InputManifest, Results } from './types';
+import { InputManifest, Results, Contract } from './types';
 
 // export types for use by transformers
 export * from './types';

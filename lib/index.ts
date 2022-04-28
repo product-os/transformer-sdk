@@ -23,7 +23,7 @@ async function readInput<InputContract extends Contract = Contract>(
 	const inputDir = path.dirname(inputPath);
 	const manifest = yaml.load(
 		(await fs.promises.readFile(inputPath)).toString(),
-	) as  InputManifest<InputContract>;
+	) as InputManifest<InputContract>;
 	// make path absolute to make handling for users easier
 	manifest.input.artifactPath = path.join(
 		inputDir,

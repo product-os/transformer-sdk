@@ -1,4 +1,7 @@
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type {
+	Contract,
+	ContractDefinition,
+} from '@balena/jellyfish-types/build/core';
 export type { Contract } from '@balena/jellyfish-types/build/core';
 
 export interface TransformerContract
@@ -24,7 +27,9 @@ export type Results = {
 	results: Result[];
 };
 
-export type Result<ResultContract extends Contract = Contract> = {
+export type Result<
+	ResultContract extends ContractDefinition = ContractDefinition,
+> = {
 	contract: ResultContract;
 	artifactPath?: string; // relative to the results file
 	imagePath?: string; // relative to the results file

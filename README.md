@@ -12,7 +12,7 @@ Implement the transformation function, pass it to `sdk.transform` hook:
 sdk.transform(manifest => {
 	// implement transformation
 	return results
-}
+});
 ```
 
 

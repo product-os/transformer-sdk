@@ -1,0 +1,57 @@
+handle: embryo
+type: type
+---
+handle: larva
+type: type
+data:
+  schema:
+    type: object
+    required:
+      - numLegs
+    properties:
+      numLegs:
+        type: number
+---
+handle: pupa
+type: type
+---
+handle: adult
+type: type
+data:
+  schema:
+    type: object
+    required:
+      - numWings
+    properties:
+      numWings:
+        type: number
+---
+handle: embryo2larva
+type: transformer
+data:
+  input:
+    $ref: embryo
+  output:
+    $ref: larva
+artifact:
+  $export: embryo2larva
+---
+handle: larva2pupa
+type: transformer
+data:
+  input:
+    $ref: larva
+  output:
+    $ref: pupa
+artifact:
+  $export: larva2pupa
+---
+handle: pupa2adult
+type: transformer
+data:
+  input:
+    $ref: pupa
+  output:
+    $ref: adult
+artifact:
+  $export: pupa2adult

@@ -1,7 +1,7 @@
 {
   "name": "@balena/transformer-sdk",
   "version": "0.2.1",
-  "description": "Provides hooks, types and utils for developing transformers",
+  "description": "Tools for developing transformers",
   "homepage": "https://github.com/product-os/transformer-sdk#readme",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -9,7 +9,9 @@
     "balena",
     "typescript"
   ],
-  "author": "",
+  "bin": {
+    "transformer-sdk": "./bin/run"
+  },
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -21,11 +23,26 @@
   "files": [
     "build/"
   ],
+  "oclif": {
+    "bin": "transformer-sdk",
+    "dirname": "transformer-sdk",
+    "commands": "./build/commands",
+    "plugins": [
+      "@oclif/plugin-help"
+    ],
+    "topicSeparator": " ",
+    "topics": {
+      "bundle": {
+        "description": "Tools for working with a transformer bundle"
+      }
+    }
+  },
   "scripts": {
     "clean": "rimraf build",
-    "build": "npm run clean && tsc",
-    "lint": "balena-lint --typescript lib test",
-    "lint-fix": "balena-lint --typescript --fix lib test",
+    "copy": "copyfiles -u 1 lib/**/*.ejs build/",
+    "build": "npm run clean && tsc && npm run copy",
+    "lint": "balena-lint --typescript lib",
+    "lint-fix": "balena-lint --typescript --fix lib",
     "test": "jest",
     "test:fast": "npm run build && npm run test",
     "prepack": "npm run build"
@@ -33,8 +50,11 @@
   "devDependencies": {
     "@balena/jellyfish-types": "^2.0.5",
     "@balena/lint": "^5.4.2",
+    "@types/ejs": "^3.1.0",
+    "@types/inflection": "^1.13.0",
     "@types/jest": "^27.4.1",
     "@types/js-yaml": "^4.0.5",
+    "copyfiles": "^2.4.1",
     "husky": "^4.2.5",
     "jest": "^27.5.1",
     "lint-staged": "^11.0.0",
@@ -44,7 +64,14 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "js-yaml": "^4.1.0"
+    "@oclif/core": "^1",
+    "@oclif/plugin-help": "^5",
+    "@oclif/plugin-plugins": "^2.0.1",
+    "ejs": "^3.1.7",
+    "inflection": "^1.13.2",
+    "js-yaml": "^4.1.0",
+    "json-schema-to-typescript": "^10.1.5",
+    "slugify": "^1.6.5"
   },
   "versionist": {
     "publishedAt": "2022-04-28T17:32:28.871Z"

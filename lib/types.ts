@@ -1,15 +1,17 @@
 import {
 	Contract,
-	ContractDefinition,
+	ContractDefinition as RawContractDefinition,
+	ContractData,
 } from '@balena/jellyfish-types/build/core';
 
-export { Contract, ContractDefinition };
+export { Contract, ContractData };
 
 export interface TransformerContract
 	extends Contract<{
 		targetPlatform?: string;
 	}> {}
 
+// TODO: rename to input and remove input prop
 export interface InputManifest<InputContract extends Contract = Contract> {
 	input: {
 		contract: InputContract;
@@ -24,6 +26,15 @@ export interface InputManifest<InputContract extends Contract = Contract> {
 	};
 }
 
+export interface ContractDefinition<TData = ContractData>
+	extends RawContractDefinition<TData> {
+	handle?: string;
+	artifact: {
+		$export: string;
+	};
+}
+
+// TODO: rename to Output
 export interface Results {
 	results: Result[];
 }

@@ -28,10 +28,7 @@ export interface InputManifest<InputContract extends Contract = Contract> {
 
 export interface ContractDefinition<TData = ContractData>
 	extends RawContractDefinition<TData> {
-	handle?: string;
-	artifact: {
-		$export: string;
-	};
+	handle: string;
 }
 
 // TODO: rename to Output

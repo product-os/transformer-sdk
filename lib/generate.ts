@@ -26,6 +26,7 @@ export async function generateBundleTypes(
 			data: string;
 			handle: string;
 			contractInterfaceName: string;
+			contractDefinitionInterfaceName: string;
 			dataInterfaceName: string;
 		}>,
 	};
@@ -51,6 +52,8 @@ export async function generateBundleTypes(
 					data,
 					handle,
 					contractInterfaceName: getContractInterfaceName(handle),
+					contractDefinitionInterfaceName:
+						getContractDefinitionInterfaceName(handle),
 					dataInterfaceName: getDataInterfaceName(handle),
 				});
 			} catch (error) {
@@ -69,20 +72,14 @@ export async function generateBundleIndex(
 ): Promise<string> {
 	const templateData = {
 		sdk: packageJson,
-		typeContractList: contracts
-			.map((contract) => {
-				if (contract.type.startsWith('type')) {
-					return getContractInterfaceName(getHandle(contract));
-				}
-			})
-			.filter((name) => name != null)
-			.join(', '),
+		requiredInterfaces: '',
 		functions: [] as Array<{
 			name: string;
 			inputType: string;
 			outputType: string;
 		}>,
 	};
+	const requiredInterfaces = [];
 	const contractsByHandle = mapContractsByHandle(contracts);
 	for (const contract of contracts) {
 		const handle = getHandle(contract);
@@ -105,11 +102,17 @@ export async function generateBundleIndex(
 						`${handle} data.output.$ref: '${outputRef}' not found in contracts`,
 					);
 				}
-				outputType = getContractInterfaceName(outputRef);
+				outputType = getContractDefinitionInterfaceName(outputRef);
 			}
-			templateData.functions.push({ inputType, outputType, name: handle.replace(/-/g,'') });
+			requiredInterfaces.push(inputType, outputType);
+			templateData.functions.push({
+				inputType,
+				outputType,
+				name: handle.replace(/-/g, ''),
+			});
 		}
 	}
+	templateData.requiredInterfaces = requiredInterfaces.join(', ');
 	const template = await fs.promises.readFile(
 		path.join(__dirname, './templates/index.ts.ejs'),
 	);
@@ -141,6 +144,10 @@ export async function writeGeneratedFiles(
 
 function getContractInterfaceName(handle: string): string {
 	return `${getHandleVariants(handle).capitalized}Contract`;
+}
+
+function getContractDefinitionInterfaceName(handle: string): string {
+	return `${getHandleVariants(handle).capitalized}ContractDefinition`;
 }
 
 function getDataInterfaceName(handle: string): string {

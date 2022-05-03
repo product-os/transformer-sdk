@@ -87,12 +87,6 @@ export async function generateBundleIndex(
 	for (const contract of contracts) {
 		const handle = getHandle(contract);
 		if (contract.type.startsWith('transformer')) {
-			if (!contract.artifact['$export']) {
-				throw Error(
-					`Transformer contract ${handle} must define a artifact.$export`,
-				);
-			}
-			const name = contract.artifact['$export'];
 			let inputType = 'any';
 			if (contract.data.input['$ref']) {
 				const inputRef = contract.data.input['$ref'];
@@ -113,7 +107,7 @@ export async function generateBundleIndex(
 				}
 				outputType = getContractInterfaceName(outputRef);
 			}
-			templateData.functions.push({ inputType, outputType, name });
+			templateData.functions.push({ inputType, outputType, name: handle.replace(/-/g,'') });
 		}
 	}
 	const template = await fs.promises.readFile(

@@ -1,10 +1,10 @@
 import {
-	Contract,
+	Contract as RawContract,
 	ContractDefinition as RawContractDefinition,
 	ContractData,
 } from '@balena/jellyfish-types/build/core';
 
-export { Contract, ContractData };
+export { ContractData };
 
 export interface TransformerContract
 	extends Contract<{
@@ -26,8 +26,15 @@ export interface InputManifest<InputContract extends Contract = Contract> {
 	};
 }
 
+// TODO: remove when handle is upstream
 export interface ContractDefinition<TData = ContractData>
 	extends RawContractDefinition<TData> {
+	handle: string;
+}
+
+// TODO: remove when handle is upstream
+export interface Contract<TData = ContractData>
+	extends RawContract<TData> {
 	handle: string;
 }
 

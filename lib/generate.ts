@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as ejs from 'ejs';
-import slugify from 'slugify';
 import * as inflection from 'inflection';
 import { compile } from 'json-schema-to-typescript';
 
@@ -31,7 +30,7 @@ export async function generateBundleTypes(
 		}>,
 	};
 	for (const contract of contracts) {
-		const handle = getHandle(contract);
+		const handle = contract.handle;
 		if (contract.type.startsWith('type')) {
 			try {
 				const schema = contract?.data?.schema || {};
@@ -74,7 +73,7 @@ export async function generateBundleIndex(
 		sdk: packageJson,
 		requiredInterfaces: '',
 		functions: [] as Array<{
-			name: string;
+			handle: string;
 			inputType: string;
 			outputType: string;
 		}>,
@@ -82,7 +81,7 @@ export async function generateBundleIndex(
 	const requiredInterfaces = [];
 	const contractsByHandle = mapContractsByHandle(contracts);
 	for (const contract of contracts) {
-		const handle = getHandle(contract);
+		const handle = contract.handle;
 		if (contract.type.startsWith('transformer')) {
 			let inputType = 'any';
 			if (contract.data.input['$ref']) {
@@ -108,7 +107,7 @@ export async function generateBundleIndex(
 			templateData.functions.push({
 				inputType,
 				outputType,
-				name: handle.replace(/-/g, ''),
+				handle: handle.replace(/-/g, ''),
 			});
 		}
 	}
@@ -156,19 +155,6 @@ function getDataInterfaceName(handle: string): string {
 	return `${getHandleVariants(handle).capitalized}Data`;
 }
 
-function getHandle(contract: ContractDefinition<any>): string {
-	if (!contract.handle && !contract.name) {
-		throw Error('Contract must define a name or handle');
-	}
-	return contract.handle
-		? contract.handle
-		: slugify(contract.name as string, {
-				lower: true,
-				trim: true,
-				strict: true,
-		  });
-}
-
 function getHandleVariants(handle: string): {
 	capitalized: string;
 	camelCase: string;
@@ -182,7 +168,7 @@ function getHandleVariants(handle: string): {
 function mapContractsByHandle(contracts: Array<ContractDefinition<any>>) {
 	return new Map(
 		contracts.map((contract) => {
-			return [getHandle(contract), contract];
+			return [contract.handle, contract];
 		}),
 	);
 }

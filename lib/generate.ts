@@ -108,7 +108,7 @@ export async function generateBundleIndex(
 			templateData.functions.push({
 				inputType,
 				outputType,
-				name: handle.replace(/-/g, ''),
+				name: getContractFunctionName(handle),
 			});
 		}
 	}
@@ -122,9 +122,9 @@ export async function generateBundleIndex(
 export async function writeGeneratedFiles(
 	bundlePath: string,
 	outputPath: string,
-	overwrite: boolean = false
+	overwrite: boolean = false,
 ) {
-	const writeFlag = overwrite ? 'w' : 'wx'
+	const writeFlag = overwrite ? 'w' : 'wx';
 	const contractsPath = path.join(bundlePath, './contracts.yml');
 	const typesPath = path.join(outputPath, './types.ts');
 	const indexPath = path.join(outputPath, './index.ts');
@@ -144,15 +144,19 @@ export async function writeGeneratedFiles(
 	}
 }
 
-function getContractInterfaceName(handle: string): string {
+export function getContractFunctionName(handle: string): string {
+	return getHandleVariants(handle.replace(/-/g, '_')).camelCase;
+}
+
+export function getContractInterfaceName(handle: string): string {
 	return `${getHandleVariants(handle).capitalized}Contract`;
 }
 
-function getContractDefinitionInterfaceName(handle: string): string {
+export function getContractDefinitionInterfaceName(handle: string): string {
 	return `${getHandleVariants(handle).capitalized}ContractDefinition`;
 }
 
-function getDataInterfaceName(handle: string): string {
+export function getDataInterfaceName(handle: string): string {
 	return `${getHandleVariants(handle).capitalized}Data`;
 }
 
@@ -175,7 +179,7 @@ function getHandleVariants(handle: string): {
 } {
 	return {
 		capitalized: inflection.camelize(handle.replace('-', '_')),
-		camelCase: inflection.camelize(handle),
+		camelCase: inflection.camelize(handle, true),
 	};
 }
 

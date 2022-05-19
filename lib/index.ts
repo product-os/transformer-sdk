@@ -6,6 +6,14 @@ import { InputManifest, Results, Contract } from './types';
 // export types for use by transformers
 export * from './types';
 
+// export naming functions for use by transformers
+export {
+	getContractDefinitionInterfaceName,
+	getContractFunctionName,
+	getContractInterfaceName,
+	getDataInterfaceName,
+} from './generate';
+
 export async function transform<InputContract extends Contract = Contract>(
 	callback: (
 		manifest: InputManifest<InputContract>,

@@ -122,7 +122,9 @@ export async function generateBundleIndex(
 export async function writeGeneratedFiles(
 	bundlePath: string,
 	outputPath: string,
+	overwrite: boolean = false
 ) {
+	const writeFlag = overwrite ? 'w' : 'wx'
 	const contractsPath = path.join(bundlePath, './contracts.yml');
 	const typesPath = path.join(outputPath, './types.ts');
 	const indexPath = path.join(outputPath, './index.ts');
@@ -134,9 +136,9 @@ export async function writeGeneratedFiles(
 		) as ContractDefinition[];
 		const typesFile = await generateBundleTypes(contracts);
 		// use wx flag to prevent overwrite
-		await fs.promises.writeFile(typesPath, typesFile, { flag: 'wx' });
+		await fs.promises.writeFile(typesPath, typesFile, { flag: writeFlag });
 		const functionsFile = await generateBundleIndex(contracts);
-		await fs.promises.writeFile(indexPath, functionsFile, { flag: 'wx' });
+		await fs.promises.writeFile(indexPath, functionsFile, { flag: writeFlag });
 	} catch (e: any) {
 		throw e;
 	}

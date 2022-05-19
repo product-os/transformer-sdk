@@ -45,7 +45,8 @@
     "lint-fix": "balena-lint --typescript --fix lib",
     "test": "jest",
     "test:fast": "npm run build && npm run test",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "test:generate": "npm run build && ./bin/run bundle generate -f --path ./test/fixtures"
   },
   "devDependencies": {
     "@balena/jellyfish-types": "^2.0.5",

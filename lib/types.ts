@@ -13,9 +13,7 @@ export interface TransformerContract
 	}> {}
 
 // TODO: rename to input and remove input prop
-export interface InputManifest<
-	InputContract extends ContractDefinition = ContractDefinition,
-> {
+export interface InputManifest<InputContract extends Contract = Contract> {
 	input: {
 		contract: InputContract;
 		transformerContract: TransformerContract;
@@ -34,11 +32,12 @@ export interface ContractDefinition<TData = ContractData> {
 	handle: string;
 	type: string;
 	data: TData;
+	name?: string;
 }
 
 // TODO: remove when handle is upstream
 export interface Contract<TData = ContractData> extends RawContract<TData> {
-	handle: string;
+	handle?: string;
 }
 
 // TODO: rename to Output

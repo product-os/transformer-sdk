@@ -1,14 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
-import { InputManifest, Results, ContractDefinition } from './types';
+import { InputManifest, Results, Contract } from './types';
 
 // export types for use by transformers
 export * from './types';
 
-export async function transform<
-	InputContract extends ContractDefinition = ContractDefinition,
->(
+export async function transform<InputContract extends Contract = Contract>(
 	callback: (
 		manifest: InputManifest<InputContract>,
 	) => Promise<Results['results']>,
@@ -20,9 +18,9 @@ export async function transform<
 	await writeOutput(outputPath, { results });
 }
 
-async function readInput<
-	InputContract extends ContractDefinition = ContractDefinition,
->(inputPath: string) {
+async function readInput<InputContract extends Contract = Contract>(
+	inputPath: string,
+) {
 	const inputDir = path.dirname(inputPath);
 	const manifest = yaml.load(
 		(await fs.promises.readFile(inputPath)).toString(),

@@ -13,7 +13,9 @@ export interface TransformerContract
 	}> {}
 
 // TODO: rename to input and remove input prop
-export interface InputManifest<InputContract extends Contract = Contract> {
+export interface InputManifest<
+	InputContract extends ContractDefinition = ContractDefinition,
+> {
 	input: {
 		contract: InputContract;
 		transformerContract: TransformerContract;

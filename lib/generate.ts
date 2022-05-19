@@ -121,9 +121,9 @@ export async function generateBundleIndex(
 export async function writeGeneratedFiles(
 	bundlePath: string,
 	outputPath: string,
-	overwrite: boolean = false
+	overwrite: boolean = false,
 ) {
-	const writeFlag = overwrite ? 'w' : 'wx'
+	const writeFlag = overwrite ? 'w' : 'wx';
 	const contractsPath = path.join(bundlePath, './contracts.yml');
 	const typesPath = path.join(outputPath, './types.ts');
 	const indexPath = path.join(outputPath, './index.ts');

@@ -102,3 +102,6 @@ dist
 
 # Intellij project specific settings
 .idea/
+
+# MacOS cache files
+.DS_Store

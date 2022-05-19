@@ -3,18 +3,17 @@ import * as os from 'os';
 import * as path from 'path';
 import * as sdk from '../lib';
 
-import type { InputManifest } from '../lib';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { ContractDefinition, InputManifest } from '../lib';
 
 interface TestContract
-	extends Contract<{
+	extends ContractDefinition<{
 		exists: true;
 	}> {}
 
 describe('Transformer SDK', function () {
 	const inputManifest: InputManifest<TestContract> = {
 		input: {
-			contract: { slug: 'test', type: 'test', data: { exists: true } } as any,
+			contract: { handle: 'test', type: 'test', data: { exists: true } } as any,
 			transformerContract: {} as any,
 			artifactPath: 'artifact',
 		},

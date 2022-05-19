@@ -26,7 +26,7 @@ data:
       numWings:
         type: number
 ---
-handle: embryo2larva
+handle: embryo-2-larva
 type: transformer
 data:
   input:
@@ -36,7 +36,7 @@ data:
 artifact:
   $export: embryo2larva
 ---
-handle: larva2pupa
+handle: larva-2-pupa
 type: transformer
 data:
   input:
@@ -46,7 +46,7 @@ data:
 artifact:
   $export: larva2pupa
 ---
-handle: pupa2adult
+handle: pupa-2-adult
 type: transformer
 data:
   input:

@@ -74,7 +74,7 @@ export async function generateBundleIndex(
 		sdk: packageJson,
 		requiredInterfaces: '',
 		functions: [] as Array<{
-			handle: string;
+			name: string;
 			inputType: string;
 			outputType: string;
 		}>,
@@ -108,7 +108,7 @@ export async function generateBundleIndex(
 			templateData.functions.push({
 				inputType,
 				outputType,
-				handle: handle.replace(/-/g, ''),
+				name: getContractFunctionName(handle),
 			});
 		}
 	}
@@ -144,15 +144,19 @@ export async function writeGeneratedFiles(
 	}
 }
 
-function getContractInterfaceName(handle: string): string {
+export function getContractFunctionName(handle: string): string {
+	return getHandleVariants(handle.replace(/-/g, '_')).camelCase;
+}
+
+export function getContractInterfaceName(handle: string): string {
 	return `${getHandleVariants(handle).capitalized}Contract`;
 }
 
-function getContractDefinitionInterfaceName(handle: string): string {
+export function getContractDefinitionInterfaceName(handle: string): string {
 	return `${getHandleVariants(handle).capitalized}ContractDefinition`;
 }
 
-function getDataInterfaceName(handle: string): string {
+export function getDataInterfaceName(handle: string): string {
 	return `${getHandleVariants(handle).capitalized}Data`;
 }
 
@@ -175,7 +179,7 @@ function getHandleVariants(handle: string): {
 } {
 	return {
 		capitalized: inflection.camelize(handle.replace('-', '_')),
-		camelCase: inflection.camelize(handle),
+		camelCase: inflection.camelize(handle, true),
 	};
 }
 
